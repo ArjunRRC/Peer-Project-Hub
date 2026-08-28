@@ -1,7 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import connectDB from './config/db.js'
 import projectRoutes from './routes/projectRoutes.js'
 import commentRoutes from './routes/commentRoutes.js'
@@ -19,13 +18,18 @@ app.use(express.json())
 
 // Declared before the DB middleware on purpose: health must answer even when
 // Mongo is unreachable, so a broken deployment is distinguishable from a
-// broken database.
-app.get('/api/health', (req, res) =>
-  res.json({
-    status: 'ok',
-    db: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-  }),
-)
+// broken database. It actively opens the connection rather than just reading
+// readyState — on a cold serverless instance nothing has connected yet, so
+// reporting readyState alone would say "disconnected" even when Mongo is fine.
+app.get('/api/health', async (req, res) => {
+  try {
+    await connectDB()
+    res.json({ status: 'ok', db: 'connected' })
+  } catch (err) {
+    // Still 200: the server itself is up. `db` and `reason` say what's wrong.
+    res.json({ status: 'ok', db: 'disconnected', reason: err.message })
+  }
+})
 
 // Connect per request rather than at import time: on serverless the first
 // request is what wakes the function, and connectDB caches the live connection
