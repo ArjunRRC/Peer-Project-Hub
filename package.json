@@ -1,0 +1,17 @@
+{
+  "name": "peer-project-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Root manifest for Vercel. The serverless function in api/ resolves these dependencies; client/ and server/ keep their own package.json for local development.",
+  "scripts": {
+    "build": "cd client && npm install && npm run build"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.3.1",
+    "mongoose": "^8.5.0"
+  }
+}

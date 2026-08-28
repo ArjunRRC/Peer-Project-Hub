@@ -1,0 +1,17 @@
+node_modules/
+
+# Never commit real credentials — .env.example files are the templates
+.env
+.env.*
+!.env.example
+
+client/dist/
+.vercel
+
+*.log
+npm-debug.log*
+
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
