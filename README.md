@@ -3,7 +3,7 @@
 A platform where students post coding projects, browse what their peers are building, comment,
 like, and bookmark favourites.
 
-**Live demo:** _(add your Vercel URL here after deploying)_
+**Live demo:** <https://peer-project-hub-chi.vercel.app>
 
 ## Demo accounts
 
